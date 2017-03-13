@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#checks user access
+
+USERID=`id -u`
+APACHEPID=`pidof httpd | awk '{print $1}'`
+
+if ! [ $USERID -eq 0 ]
+then
+        echo "You need to be root to start apache server"
+        exit 123
+else
+        echo "logged in user is root"
+        if [ -z $APACHEPID ]
+        then
+                echo "starting apache server"
+                service httpd start
+        else
+                echo "apache server is already running"
+                echo "the PIDs are: $APACHEPID"
+        fi
+
